@@ -6,6 +6,7 @@ import (
 
 func main() {
 
-	bp.Parse()
-	bp.GetPath()
+	points := make(bp.Points, 0)
+	points.Parse()
+	points.CheckPoints()
 }
