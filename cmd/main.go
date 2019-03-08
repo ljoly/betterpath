@@ -8,5 +8,7 @@ func main() {
 
 	points := make(bp.Points, 0)
 	points.Parse()
+	points.SortByTimestamp()
 	points.CheckPoints()
+
 }

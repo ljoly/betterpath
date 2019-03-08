@@ -1,12 +1,9 @@
 package betterpath
 
 import (
-	"bufio"
-	"encoding/csv"
 	"fmt"
-	"io"
-	"os"
-	"strconv"
+	"math"
+	"sort"
 )
 
 // Point stores coordinates and timestamp of a point
@@ -19,43 +16,34 @@ type Point struct {
 // Points stores the path
 type Points []Point
 
-// CheckPoints removes erroneous points
-func (p *Points) CheckPoints() {
+func (points Points) averageDistance() float64 {
 
+	d := 0.0
+	xPrev := 0.0
+	yPrev := 0.0
+	for _, point := range points {
+
+		d += math.Sqrt(math.Pow((point.x-xPrev), 2) + math.Pow((point.y-yPrev), 2))
+		xPrev = point.x
+		yPrev = point.y
+	}
+	d /= float64(len(points))
+	return d
 }
 
-// Parse csv file: checking the data format and storing points
-func (points *Points) Parse() {
+// CheckPoints removes erroneous points
+func (points Points) CheckPoints() {
 
-	if len(os.Args) < 2 {
-		fmt.Fprintf(os.Stderr, "No file provided\n")
-		os.Exit(1)
-	}
+	// average distance between two points
+	avDist := points.averageDistance()
 
-	csvFile, _ := os.Open(os.Args[1])
-	reader := csv.NewReader(bufio.NewReader(csvFile))
+	fmt.Println(avDist)
+}
 
-	for {
-		line, err := reader.Read()
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		a, err := strconv.ParseFloat(line[0], 64)
-		b, err := strconv.ParseFloat(line[1], 64)
-		c, err := strconv.ParseInt(line[2], 10, 32)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Wrong data format\n")
-			os.Exit(1)
-		}
-		*points = append(*points, Point{
-			x: a,
-			y: b,
-			t: c,
-		},
-		)
+// SortByTimestamp sorts points by timestsamp
+func (points Points) SortByTimestamp() {
 
-	}
+	sort.SliceStable(points, func(i, j int) bool {
+		return points[i].t < points[j].t
+	})
 }
