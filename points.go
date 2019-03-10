@@ -1,7 +1,6 @@
 package betterpath
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -14,14 +13,6 @@ type Point struct {
 
 // Points stores the coordinates sorted by timestamp
 type Points []Point
-
-// Print outputs the updated dataset
-func (points Points) Print() {
-
-	for _, point := range points {
-		fmt.Print(point.x, ",", point.y, ",", point.t, "\n")
-	}
-}
 
 // RemoveOutliers removes erroneous points by considering their distance
 // to the standard deviation of distances
