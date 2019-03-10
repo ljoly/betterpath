@@ -18,9 +18,5 @@ func main() {
 	}
 	points.SortByTimestamp()
 	points.RemoveOutliers()
-	err = points.Output()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
-		os.Exit(1)
-	}
+	points.Print()
 }
