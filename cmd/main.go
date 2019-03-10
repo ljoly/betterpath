@@ -9,6 +9,6 @@ func main() {
 	points := make(betterpath.Points, 0)
 	points.Parse()
 	points.SortByTimestamp()
-	points.CheckPoints()
-
+	points.RemoveOutliers()
+	points.Print()
 }

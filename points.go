@@ -2,7 +2,6 @@ package betterpath
 
 import (
 	"fmt"
-	"math"
 	"sort"
 )
 
@@ -13,31 +12,37 @@ type Point struct {
 	t int64
 }
 
-// Points stores the path
+// Points stores the coordinates sorted by timestamp
 type Points []Point
 
-func (points Points) averageDistance() float64 {
+// Print outputs the updated dataset
+func (points Points) Print() {
 
-	d := 0.0
-	xPrev := 0.0
-	yPrev := 0.0
 	for _, point := range points {
-
-		d += math.Sqrt(math.Pow((point.x-xPrev), 2) + math.Pow((point.y-yPrev), 2))
-		xPrev = point.x
-		yPrev = point.y
+		fmt.Print(point.x, ",", point.y, ",", point.t, "\n")
 	}
-	d /= float64(len(points))
-	return d
 }
 
-// CheckPoints removes erroneous points
-func (points Points) CheckPoints() {
+// RemoveOutliers removes erroneous points by considering their distance
+// to the standard deviation of distances
+func (points *Points) RemoveOutliers() {
 
-	// average distance between two points
-	avDist := points.averageDistance()
+	distances, zeroDistances := Distances(*points)
+	mean := Mean(distances, zeroDistances)
+	stdDeviation := StdDeviation(distances, mean, zeroDistances)
 
-	fmt.Println(avDist)
+	for i := 1; i < len(*points)-1; i++ {
+
+		if distances[i-1] > stdDeviation {
+			// remove the second point of the pair considered
+			*points = append((*points)[:i], (*points)[i+1:]...)
+			// remove the index of the distance considered
+			distances = append(distances[:i-1], distances[i:]...)
+			// update the array of distances with the distance of the new pair
+			distances[i] = Distance((*points)[i], (*points)[i+1])
+		}
+	}
+
 }
 
 // SortByTimestamp sorts points by timestsamp
