@@ -3,18 +3,17 @@ package betterpath
 import (
 	"bufio"
 	"encoding/csv"
-	"fmt"
+	"errors"
 	"io"
 	"os"
 	"strconv"
 )
 
 // Parse checks the data format and stores points
-func (points *Points) Parse() {
+func (points *Points) Parse() error {
 
 	if len(os.Args) < 2 {
-		fmt.Fprintf(os.Stderr, "No file provided\n")
-		os.Exit(1)
+		return errors.New("No file provided")
 	}
 
 	csvFile, _ := os.Open(os.Args[1])
@@ -25,15 +24,13 @@ func (points *Points) Parse() {
 		if err == io.EOF {
 			break
 		} else if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return errors.New("Read error")
 		}
 		a, err := strconv.ParseFloat(line[0], 64)
 		b, err := strconv.ParseFloat(line[1], 64)
 		c, err := strconv.ParseInt(line[2], 10, 32)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Wrong data format\n")
-			os.Exit(1)
+			return errors.New("Wrong data format")
 		}
 		*points = append(*points, Point{
 			x: a,
@@ -42,4 +39,5 @@ func (points *Points) Parse() {
 		},
 		)
 	}
+	return nil
 }

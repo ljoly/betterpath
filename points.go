@@ -42,7 +42,6 @@ func (points *Points) RemoveOutliers() {
 			distances[i] = Distance((*points)[i], (*points)[i+1])
 		}
 	}
-
 }
 
 // SortByTimestamp sorts points by timestsamp
