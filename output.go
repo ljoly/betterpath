@@ -13,7 +13,7 @@ func (points Points) Output() error {
 		return err
 	}
 	for _, point := range points {
-		s := fmt.Sprintf("%.8f,%.9f,%d\n", point.x, point.y, point.t)
+		s := fmt.Sprintf("%.8f,%.9f,%d", point.x, point.y, point.t)
 		_, err := f.WriteString(s)
 		if err != nil {
 			f.Close()
