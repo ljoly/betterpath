@@ -31,16 +31,33 @@ func (points *Points) RemoveOutliers() {
 	mean := Mean(distances, zeroDistances)
 	stdDeviation := StdDeviation(distances, mean, zeroDistances)
 
-	for i := 1; i < len(*points)-1; i++ {
+	if stdDeviation == 0 {
+		// nothing to be done
+		return
+	}
+	// check the first point
+	for distances[0] > stdDeviation && distances[1] < stdDeviation {
+		// pop the first element
+		_, *points = (*points)[0], (*points)[1:]
+		_, distances = distances[0], distances[1:]
+		distances[0] = Distance((*points)[0], (*points)[1])
+	}
 
-		if distances[i-1] > stdDeviation {
+	for i := 1; i < len(distances)-1; i++ {
+
+		if distances[i] > stdDeviation {
 			// remove the second point of the pair considered
-			*points = append((*points)[:i], (*points)[i+1:]...)
+			*points = append((*points)[:i+1], (*points)[i+2:]...)
 			// remove the index of the distance considered
-			distances = append(distances[:i-1], distances[i:]...)
+			distances = append(distances[:i], distances[i+1:]...)
 			// update the array of distances with the distance of the new pair
 			distances[i] = Distance((*points)[i], (*points)[i+1])
+			i--
 		}
+	}
+	// check the last point
+	if distances[len(distances)-1] > stdDeviation {
+		*points = (*points)[:len(*points)-1]
 	}
 }
 
