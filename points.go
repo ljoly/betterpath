@@ -37,14 +37,13 @@ func (points *Points) RemoveOutliers() {
 	}
 	// check the first point
 	for distances[0] > stdDeviation && distances[1] < stdDeviation {
-		// pop the first element
+		// pop the first point
 		_, *points = (*points)[0], (*points)[1:]
 		_, distances = distances[0], distances[1:]
 		distances[0] = Distance((*points)[0], (*points)[1])
 	}
-
+	// check all the points
 	for i := 1; i < len(distances)-1; i++ {
-
 		if distances[i] > stdDeviation {
 			// remove the second point of the pair considered
 			*points = append((*points)[:i+1], (*points)[i+2:]...)
