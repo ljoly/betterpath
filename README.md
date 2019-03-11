@@ -24,9 +24,17 @@ Another matter was the position of the wrong points after being sorted by timest
 
 ## Design decisions
 Two slices:
-* for storing the coordinates (in a structure "Point")
+* for storing the coordinates and the timestamp of each point
+```go
+type Point struct {
+	x float64
+	y float64
+	t int64
+}
+```
+
 * for storing the distances between points and to calculate the standard deviation
 
-The two slices are browsed only once, and simultaneously. When a distance is considered too high (ie. superior to the standard deviation), the erroneous point of the pair is identified, deleted, and the distances are updated (and checked -> two erroneous points can be contiguous).<br/>
+The two slices are browsed only once, and simultaneously. When a distance is considered too high (ie. superior to the standard deviation), the erroneous point of the pair is identified, deleted, and the distances are updated (and checked because two erroneous points can be contiguous).<br/>
 
 
