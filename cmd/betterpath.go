@@ -10,7 +10,6 @@ import (
 func main() {
 
 	points := make(betterpath.Points, 0)
-
 	err := points.Parse()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
