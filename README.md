@@ -27,6 +27,6 @@ Two slices:
 * for storing the coordinates (in a structure "Point")
 * for storing the distances between points and to calculate the standard deviation
 
-The two slices are browsed only once, and simultaneously. When a distance is considered too high (ie. superior to the standard deviation), the erroneous point is identified, deleted, and the distance is updated (and checked -> two erroneous can be contiguous).<br/>
+The two slices are browsed only once, and simultaneously. When a distance is considered too high (ie. superior to the standard deviation), the erroneous point of the pair is identified, deleted, and the distances are updated (and checked -> two erroneous points can be contiguous).<br/>
 
 
