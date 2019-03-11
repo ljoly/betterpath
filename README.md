@@ -24,7 +24,7 @@ Another matter was the position of the wrong points after being sorted by timest
 
 ## Design decisions
 Two slices:
-* for storing the coordinates and the timestamp of each point
+* for storing the coordinates and the timestamp of each point, using a structure Point
 ```go
 type Point struct {
 	x float64
