@@ -20,7 +20,7 @@ I plotted the coordinates on a map and noticed that some points were far from th
   Since the "wrong" distances seemed significantly higher than the "normal" ones I decided to work on the standard deviation of the distances, inspired by the work I did on [linear](https://github.com/ljoly/ft_linear_regression) and [logistic](https://github.com/ljoly/DSLR) regressions and an interesting [article](https://www.kdnuggets.com/2017/02/removing-outliers-standard-deviation-python.html) about the concept of normal distribution.<br/>
 
 #### Position of the points
-Another matter was the position of the wrong points after being sorted by timestamp. Wether they were contiguous, at the beginning of the path or at the end, it required to update carefully the data stored.
+Another matter was the position of the wrong points after being sorted by timestamp. Whether they were contiguous, at the beginning of the path or at the end, it required to update carefully the data stored.
 
 ## Design decisions
 Two slices:
